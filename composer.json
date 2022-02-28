@@ -1,0 +1,58 @@
+{
+    "name": "sunarctech/laravel-chat",
+    "type": "package",
+    "description": "Pre-build Laravel chat package.",
+    "keywords": [
+        "sunarc",
+        "sunarctech",
+        "sunarc-technologies",
+        "Laravel Chat"
+    ],
+    "homepage": "https://github.com/sunarc-technologies/laravel-chat",
+    "license": "MIT",
+    "authors": [{
+        "name": "SunArc Technologies",
+        "email": "info@sunarctechnologies.com",
+        "homepage": "https://github.com/sunarc-technologies",
+        "role": "Developer"
+    }],
+    "require": {
+        "php": "^7.3|^8.0",
+        "beyondcode/laravel-websockets": "^1.13",
+        "guzzlehttp/psr7": "^1.7 || ^2.1",
+        "illuminate/support": "^7.0|^8.0",
+        "laravel/framework": "^7.0|^8.0",
+        "pusher/pusher-php-server": "^3.0|^4.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.0",
+        "phpunit/phpunit": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sunarc\\LaravelChat\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sunarc\\Tests\\LaravelChat\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Sunarc\\LaravelChat\\ChatServiceProvider"
+            ],
+            "aliases": {
+                "LaravelChat": "Sunarc\\LaravelChat\\LaravelChat"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
