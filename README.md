@@ -86,6 +86,10 @@ In order to use the chat, Fisrt need to start the websocket server Using Command
 php artisan websocket:serve
 ```
 
+Visit the route, registered with Package.
+```php
+www.yourdomain.com/chat
+```
 ## Known Error
 
 You might face dependency version mismatch issue at the time of installation, To fix the issue just add **-W**:
