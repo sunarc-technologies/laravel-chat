@@ -79,6 +79,11 @@ Package ships with some migration files, which is required in order to save the 
 php artisan migrate
 ```
 
+#### Link Storage
+```php
+php artisan storage:link
+```
+
 ## How to use?
 In order to use the chat, Fisrt need to start the websocket server Using Command:
 
