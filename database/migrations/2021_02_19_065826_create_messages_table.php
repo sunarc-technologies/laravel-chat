@@ -17,7 +17,9 @@ class CreateMessagesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('from');
             $table->unsignedBigInteger('to');
-            $table->text('message');
+            $table->text('message')->nullable();
+            $table->string('file')->nullable();
+            $table->string('file_type')->nullable();
             $table->boolean('type');
             $table->timestamps();
         });

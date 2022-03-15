@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Sunarc\LaravelChat\Models\Message;
 use Sunarc\LaravelChat\Models\User;
+use Illuminate\Support\Facades\Validator;
 
 class MessageController extends Controller
 {
@@ -56,25 +57,65 @@ class MessageController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function send_message(Request $request)
-    {
-        abort_if(!$request->ajax(), 404);
-
+    public function send_message(Request $request){
+        if(!$request->ajax()){
+            return abort(404);
+        }
+        if($request->file('file')){
+            $request->validate([
+                'file' => [
+                function ($attribute, $value, $fail) {
+                    
+                    $file_type = explode('/',request('file')->getMimeType())[0];
+                    if($file_type == 'image') 
+                    {
+                        $validator = Validator::make(
+                            ['image' => $value],
+                            ['image' => config('chat.image_validation')]
+                        );
+                    }
+                    elseif($file_type == 'video') 
+                    {
+                        $validator = Validator::make(
+                            ['video' => $value],
+                            ['video' => config('chat.video_validation')]
+                        );
+                    }
+                    else
+                    {
+                        $validator = Validator::make(
+                            ['file' => $value],
+                            ['file' => config('chat.file_validation')]
+                        );
+                    }
+                    if ($validator->fails()) {
+                        $fail($validator->messages()->first());
+                    }
+                }
+                ]
+            ]);
+            $file = request('file')->hashName();
+            request('file')->store('public/files');
+            $file_type = explode('/',request('file')->getMimeType())[0];
+        }
         $messages = Message::create([
-            'message' => $request->message,
-            'from' => $this->userID,
-            'to' => $request->user_id,
-            'type' => 0,
+            'message'=>$request->message,
+            'file_type'=>$file_type ?? null,
+            'file'=>$file ?? null,
+            'from'=>auth()->user()->id,
+            'to'=>$request->user_id,
+            'type'=>0
         ]);
-
         $messages = Message::create([
-            'message' => $request->message,
-            'from' => $this->userID,
-            'to' => $request->user_id,
-            'type' => 1,
+            'message'=>$request->message,
+            'file_type'=>$file_type ?? null,
+            'file'=>$file ?? null,
+            'from'=>auth()->user()->id,
+            'to'=>$request->user_id,
+            'type'=>1
         ]);
         broadcast(new MessageSend($messages));
-        return response()->json($messages, 201);
+        return response()->json($messages,201);
     }
 
     /**

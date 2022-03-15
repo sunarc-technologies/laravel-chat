@@ -3,6 +3,7 @@
 namespace Sunarc\LaravelChat\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Message extends Model
 {
@@ -16,5 +17,10 @@ class Message extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'from');
+    }
+    public function getFileAttribute($file)
+    {
+        if($file)
+        return $file = Storage::url('files/'.$file);
     }
 }
