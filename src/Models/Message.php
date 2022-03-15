@@ -5,6 +5,7 @@ namespace Sunarc\LaravelChat\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
+
 class Message extends Model
 {
     /**
