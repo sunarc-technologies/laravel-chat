@@ -30,6 +30,16 @@ php artisan vendor:publish --provider="BeyondCode\LaravelWebSockets\WebSocketsSe
 
 ## Configurations
 
+#### Make necessary change in order to change file validations.
+**chat.php**
+```
+return [
+    'image_validation' => "max:1024|mimes:png,jpeg",
+    'video_validation' => "max:102400|mimes:mp4",
+    'file_validation' => "max:1024|mimes:txt",
+];
+```
+
 #### Make necessary change in order to activate the websocket.
 **websockets.php**
 ```php
